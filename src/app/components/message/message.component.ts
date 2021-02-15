@@ -60,7 +60,7 @@ export class MessageComponent implements OnInit {
   ngOnInit(): void {
     this.getCurrentLocation(this.message.codUser);
     /*if (this.message.text == 'Interrupción de Energía⚡') {
-      this.getCurrentLocation(this.message.codUser);
+      //this.getCurrentLocation(this.message.codUser);
     }*/
     if (this.message.docUrl) {
 
@@ -110,8 +110,11 @@ export class MessageComponent implements OnInit {
       navigator.geolocation.getCurrentPosition(position => {
 
         let coordenadas = [position.coords.latitude, position.coords.longitude];
+
+        //guardar cooredenadas
         this._dfs.saveCoordinates(coordenadas, codUser, this.distance).subscribe(
           res => {
+
             let mymap = L.map('map').setView(coordenadas, 16);
 
             L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWF0ZW9nYXJjaWFsb3BleiIsImEiOiJja2w0b2JjY3cwdWpyMzJucjB2eGtqeGgyIn0.P1krDgOx17o2CvwOYCTzPA', {
