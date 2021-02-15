@@ -1,0 +1,52 @@
+.chat-window {
+    position: absolute;
+    width: 80%;
+    height: 80%;
+    margin-left: 2rem;
+    ;
+    overflow-y: auto;
+}
+
+.message-input {
+    position: fixed;
+    bottom: 0;
+    left: 10%;
+    width: 80%;
+    min-height: 5%;
+    margin: auto;
+}
+
+.input-msg-box {
+    width: 95%;
+}
+
+.msg-bubble-bot {
+    border-radius: 10rem;
+    background-color: #0069D9;
+    color: #ffffff;
+    padding: 0.8rem;
+    margin-top: 0.3rem;
+}
+
+.msg-bubble-human {
+    border-radius: 10rem;
+    background-color: #cccccc;
+    color: #000000;
+    padding: 0.8rem;
+    margin-top: 0.3rem;
+}
+
+.card-with-img-text {
+    border-radius: 10rem;
+    background-color: #0069D9;
+    color: #ffffff;
+    padding: 0.8rem;
+    margin-top: 0.3rem;
+}
+
+.card-with-img-text img {
+    max-width: 250px;
+    border: #0069D9 1px solid;
+}
+
+

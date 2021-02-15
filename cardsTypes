@@ -1,0 +1,16 @@
+texto - {"text":"hola, mi nombre es mateo"}
+texto con opciones - {"text":"hola, mi nombre es mateo", "opciones":[{"text":"resumen", "webUrl":"www.com", "type":"webUrl"}]}
+imagenUrl - {"text":"hola, mi nombre es mateo", "imgUrl": "www.com"}
+videoUrl - {"text":"hola, mi nombre es mateo", "videoUrl": "www.com"}
+docUrl - {"text":"hola, mi nombre es mateo", "docUrl": "www.com"}
+webUrl - {"text":"hola, mi nombre es mateo", "webUrl": "www.com"}
+opciones - {"text":"hola, mi nombre es mateo", "opciones":[{"text":"resumen", "webUrl":"www.com", "type":"webUrl"}, {"msg":"resumen", "videoUrl":"www.com", "type":"videoUrl"}]}
+
+
+("text":"Here are my some photography ", "imageUrl" : "https://images.unsplash.com/photo-1563210080-dfe35c83e2eb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=700&q=80")
+
+
+("text":"hola, soy mateo. Comunicate conmigo","chips":[{"text":"llamame","videoUrl":"tel:+573136043363"},{"text":"mira mi web","videoUrl":"https://github.com/erBhushanPawar/angular8-dialogflow-bot-udemy/blob/master/dialogflow-messages/formats.txt"},{"msg":"envia un email","videoUrl":"mailto:qwerty@gmail.com"}])
+
+("text":"hola, soy mateo. dame tu foto del trabajo","imgUrl":"https://s3-us-west-2.amazonaws.com/lasaga-blog/media/images/grupo_imagen.original.jpg","chips":[{"msg":"ver el documento","videoUrl":"https://s3-us-west-2.amazonaws.com/lasaga-blog/media/images/grupo_imagen.original.jpg"},{"msg":"otra imagen","imageUrl":"https://github.com/erBhushanPawar/angular8-dialogflow-bot-udemy/blob/master/dialogflow-messages/formats.txt"}])
+

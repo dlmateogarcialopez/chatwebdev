@@ -1,0 +1,78 @@
+<div *ngIf="message.type!='text'" [ngClass]="{'me' : message.sentBy === 'human'}" class="message-bubble">
+    <div class="message-bubble-inner">
+        <div class="message-avatar">
+            <img [src]="message.sentBy === 'human' ? message.userImg : message.botImg" alt="">
+        </div>
+
+        <div class="message-text">
+
+            <!--
+            <embed *ngIf="message.docUrl" [src]="message.docUrl" type="application/pdf" width="100%" height="100px" />            
+            <div>                
+                <i *ngIf="message.docUrl" class="fas fa-download" style="color: black;" (click)="downloadPdf()"></i>   
+            </div>  
+            https://chatbotchecserver.com/chatbotCHECUsuarios/copiaFactura/copias/prueba.pdf','factura.pdf  
+            <i *ngIf="message.docUrl" class="fas fa-download" style="color: black;" (click)="downloadPdf('https://cors-anywhere.herokuapp.com/https://chatbotchecserver.com/chatbotCHECUsuarios/copiaFactura/copias/prueba.pdf','miFactura.pdf')"></i>                       
+            <i *ngIf="message.docUrl" class="fas fa-download" style="color: black; cursor: pointer;" (click)="downloadPdf('https://cors-anywhere.herokuapp.com/https://adminchecweb.cadenaportalgestion.com/PDF/Show?Id=396789018','miFactura.pdf')"></i>
+            <embed *ngIf="message.docUrl" id="embedPdf" [src]="message.docUrl | safe" type="application/pdf" width="100%" height="100px" (click)="zoomImageInvoice()" />       
+            <embed *ngIf="message.docUrl" id="embedPdf" [src]="message.docUrl | safe" type="application/pdf" width="100%" height="100px" (click)="zoomImageInvoice()" />                   
+            <canvas *ngIf="message.docUrl" id="my_canvas" (click)="downloadPdf(message.docUrl)"></canvas>
+            -->
+            <div id="contImg">
+                <div *ngIf="message.imageUrl&&imagenDescarga" #ovalo id="ovalo" (click)="downloadPdf(message.docUrl)">
+                </div>
+                <img *ngIf="message.imageUrl&&imagenDescarga" #descarga [src]="cargaYdescarga" id='descarga'
+                    (click)="downloadPdf(message.docUrl)">
+                <img *ngIf="message.imageUrl" [src]="message.imageUrl" (click)="zoomImage()" class="imgweb">
+            </div>
+
+            <p>{{message.text}}
+                <!--<a *ngIf="message.docUrl">                 
+                    <img *ngIf="message.docUrl" src="./assets/images/descarga.png" (click)="downloadPdf(message.docUrl)" id="iconDownload">
+                    
+                </a>-->
+            </p>
+            <div *ngIf="mapa" id="map"></div>
+            <span *ngIf="!message.chips" id="hora">{{today | date:'shortTime'}}</span>
+
+            <p *ngIf="message.webUrl"><small><a target="__blank" [href]="message.webUrl">Click aqui para abrir este
+                        link</a></small></p>
+
+            <div *ngIf="message.chips && message.chips.length">
+                <span (click)="chipOperation(c)" *ngFor="let c of message.chips" class="chip">{{c.text}}</span>
+                <span id="hora">{{today | date:'shortTime'}}</span>
+            </div>
+        </div>
+
+    </div>
+    <div class="clearfix"></div>
+</div>
+<!--
+    <div *ngIf="message.type=='text'" [ngClass]="{'me' : message.sentBy === 'human'}" class="message-bubble">
+    <div class="message-bubble-inner">
+        <div class="message-avatar">
+            <img [src]="message.sentBy === 'human' ? message.userImg : message.botImg" alt="">
+        </div>
+
+
+        <div class="message-text">
+            <p>{{message.text}}</p>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+</div>
+-->
+<div *ngIf="false" class="message-bubble" style="border: 1px solid red">
+    <div class="message-bubble-inner">
+        <div class="message-avatar"><img [src]="message.botImg" alt=""></div>
+        <div class="message-text">
+            <!-- Typing Indicator -->
+            <div class="typing-indicator">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+</div>

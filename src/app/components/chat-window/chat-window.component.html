@@ -1,0 +1,32 @@
+<div class="message-content">
+
+    <div class="messages-headline">
+
+
+        <img id="iconoLucy" src="./assets/images/lucy.jpg" alt="">
+        <h1 id="nombreCabecera">CHEC Grupo EPM</h1>
+
+        <a (click)="clearConversationp()" class="message-action">
+            <i class="icon-feather-trash-2"></i>
+            <!--            
+            <i class="fas fa-times"></i>
+            <i class="fas fa-minus" ></i>  
+            -->
+        </a>
+    </div>
+
+    <!-- Message Content Inner -->
+    <div class="message-content-inner" id="message-content-inner">
+        <app-message *ngFor="let m of conversation" [message]="m" (onChipSelected)="onChipSelected($event)">
+        </app-message>
+    </div>
+    <!-- Message Content Inner / End -->
+
+    <!-- Reply Area -->
+    <div class="message-reply">
+        <input type="text" placeholder="Envia un mensaje" [(ngModel)]="inputMessage" (keyup.enter)="sendMessage()">
+        <i class="fas fa-paper-plane fa-1.5x" (click)="sendMessage()"></i>
+        <!--<button (click)="sendMessage()" class="button ripple-effect" style="background-color: rgba(28, 192, 28, 0.658);">Enviar</button></i>-->
+    </div>
+
+</div>
