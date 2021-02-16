@@ -58,10 +58,10 @@ export class MessageComponent implements OnInit {
   constructor(private _dfs: DialogflowService) { }
 
   ngOnInit(): void {
-    this.getCurrentLocation(this.message.codUser);
-    /*if (this.message.text == 'Interrupción de Energía⚡') {
+    if (this.message.text == 'Interrupción de Energía⚡') {
       //this.getCurrentLocation(this.message.codUser);
-    }*/
+      //this.getCurrentLocation(this.message.codUser);
+    }
     if (this.message.docUrl) {
 
       var name = this.message.docUrl.split(".");
@@ -71,6 +71,7 @@ export class MessageComponent implements OnInit {
       }
     }
 
+    this.limpiarMapa();
     this.dispararMapa(this.message.text);
 
   }
@@ -78,11 +79,18 @@ export class MessageComponent implements OnInit {
   dispararMapa(message) {
     let separarFrase = message.split("(");
     let frase = separarFrase[0];
-    console.log(frase);
     if (frase == '¿Esta es tu ubicación con respecto al municipio donde te encunetras') {
+      this.getCurrentLocation(this.message.codUser);
       this.mapa = true;
-      //this.map.off();
-      //this.map.remove();
+    } else {
+      this.mapa = false;
+    }
+  }
+
+  limpiarMapa() {
+    var container = L.DomUtil.get('map');
+    if (container != null) {
+      container.outerHTML = "";
     }
   }
 
@@ -114,7 +122,8 @@ export class MessageComponent implements OnInit {
         //guardar cooredenadas
         this._dfs.saveCoordinates(coordenadas, codUser, this.distance).subscribe(
           res => {
-
+            
+            //Configuración inicial de leaflet
             let mymap = L.map('map').setView(coordenadas, 16);
 
             L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWF0ZW9nYXJjaWFsb3BleiIsImEiOiJja2w0b2JjY3cwdWpyMzJucjB2eGtqeGgyIn0.P1krDgOx17o2CvwOYCTzPA', {
@@ -157,7 +166,7 @@ export class MessageComponent implements OnInit {
     let coordenadas = [coordenates[1], coordenates[0]];
     this._dfs.makeCapitalMarkers(distance, coordenadas).subscribe(
       res => {
-        console.log('res', res);
+        //console.log('res', res);
         for (const c of res) {
           const lon = c.latitud;
           const lat = c.longitud;
