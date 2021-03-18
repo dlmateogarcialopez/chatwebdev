@@ -162,6 +162,14 @@ export class DialogflowService {
     return this.http.post('https://backchatweb.herokuapp.com/saveInteraction', params, { headers: headers });
   }
 
+  saveRespondeAuth(response): Observable<any> {
+    let params = JSON.stringify(response);
+    let headers = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.http.post('https://backchatweb.herokuapp.com/saveResponseAuth', params, { headers: headers });
+  }
+
+
+
 
   //Reemplaza toda la conversacion existente por un array vacio
   setConversation(con: RichMessage[]) {
@@ -187,7 +195,7 @@ export class DialogflowService {
   }
 
   //Guardar coordenadas
-  saveCoordinates(coordinates, codUser, distance){
+  saveCoordinates(coordinates, codUser, distance) {
     let coordenadas = JSON.stringify({
       coordenadas: coordinates,
       codUser: codUser,

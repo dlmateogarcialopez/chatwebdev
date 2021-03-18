@@ -4,6 +4,7 @@ import { RichMessage } from 'src/app/models/rich-message';
 import Swal from 'sweetalert2';
 import { Chat } from '../../models/chats';
 import { Session } from '../../models/session';
+import * as moment from 'moment';
 declare var $: any;
 
 @Component({
@@ -45,12 +46,12 @@ export class ChatWindowComponent implements OnInit {
 
     this._dfs.chatSubject.subscribe((conversation: RichMessage[]) => {
       this.conversation = conversation;
-      //console.log(conversation);
       setTimeout(() => {
         //$(".message-content-inner").stop().animate({ scrollTop: $(".message-content-inner")[0].scrollHeight + 500 }, 100);
         document.getElementById('message-content-inner').scrollTop = 9999999;
       }, 100);
 
+      this.verificarAutorizacion();//-----------------------------------------------------------
       this.sendToDB();
     });
 
@@ -117,6 +118,7 @@ export class ChatWindowComponent implements OnInit {
 
   }
 
+
   getSessions(sessionId) {
     this._dfs.getSessions().subscribe(
       r => {
@@ -143,6 +145,59 @@ export class ChatWindowComponent implements OnInit {
   /*clearConversation() {
     this._dfs.clear();
   }*/
+  verificarAutorizacion() {//------------------------------------------
+    this.getSession(this.sessionId);
+    //this.getSessions(this.sessionId);    
+    if (this.sessionId != undefined) {
+      if (this.flag == false) {
+        this.autorizacion();
+      }
+
+    }
+  }
+
+  autorizacion() {//----------------------------------------------
+    Swal.fire({
+      html:
+        'Autoriza el tratamiento de sus datos personales con fines comerciales diferentes a la prestación del servicio, para adelantar todas las gestiones de mercadeo y promoción relacionadas con los servicios ofrecidos por CHEC o por sus aliados comerciales, de acuerdo con la política tratamiento de información y el aviso de privacidad publicado en la página web ' +
+        '<a href="//sweetalert2.github.io">WWW.CHEC.COM.CO</a> ',
+      showCloseButton: false,
+      showCancelButton: true,
+      focusConfirm: true,
+      confirmButtonText:
+        '<i class="fa fa-thumbs-up"></i> Autorizar',
+      confirmButtonAriaLabel: 'Thumbs up, great!',
+      cancelButtonText:
+        '<i class="fa fa-thumbs-down"></i> No Autorizar',
+      cancelButtonAriaLabel: 'Thumbs down'
+    }).then((result) => {
+      let d = new Date();
+      let response = {};
+      if (result.value) {
+         response = {
+          CODUSER: this.sessionId,
+          RESPONSE: 'SI',
+          FECHA: moment(d).format('YYYY-MM-DD h:mm:ss'),
+        }
+      } else {
+         response = {
+          CODUSER: this.sessionId,
+          RESPONSE: 'NO',
+          FECHA: moment(d).format('YYYY-MM-DD h:mm:ss'),
+        }
+      }
+
+      this._dfs.saveRespondeAuth(response).subscribe(
+        res => {
+          console.log(res);
+        },
+        err => {
+          console.log(err);
+        }
+      );
+
+    })
+  }
 
   clearConversationp() {
     Swal.fire({

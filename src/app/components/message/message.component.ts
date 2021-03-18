@@ -13,8 +13,8 @@ declare const pdfToImg: any;
 
 //filesaver es una libreria usada para descargar los pdf de otro servicio
 declare var require: any;
-declare const L: any;
 const FileSaver = require('file-saver');
+declare const L: any;
 const iconRetinaUrl = 'assets/images/marker-icon-2x.png';
 const iconUrl = 'assets/images/marker-icon.png';
 const MyiconUrl = 'assets/images/marker-icon_red.png';
@@ -50,16 +50,14 @@ export class MessageComponent implements OnInit {
   public mapa = false;
   public map
 
-
-
   @Input() message;
   @ViewChild('descarga') descarga; //controlar algunos atributos css
   @ViewChild('ovalo') ovalo; //controlar algunos atributos css
-  constructor(private _dfs: DialogflowService) { }
+  constructor(private _dfs: DialogflowService) { } 
 
   ngOnInit(): void {
+    this.getCurrentLocation(this.message.codUser);
     if (this.message.text == 'Interrupción de Energía⚡') {
-      //this.getCurrentLocation(this.message.codUser);
       //this.getCurrentLocation(this.message.codUser);
     }
     if (this.message.docUrl) {
@@ -80,7 +78,7 @@ export class MessageComponent implements OnInit {
     let separarFrase = message.split("(");
     let frase = separarFrase[0];
     if (frase == '¿Esta es tu ubicación con respecto al municipio donde te encunetras') {
-      this.getCurrentLocation(this.message.codUser);
+      //this.getCurrentLocation(this.message.codUser);
       this.mapa = true;
     } else {
       this.mapa = false;
@@ -122,7 +120,7 @@ export class MessageComponent implements OnInit {
         //guardar cooredenadas
         this._dfs.saveCoordinates(coordenadas, codUser, this.distance).subscribe(
           res => {
-            
+
             //Configuración inicial de leaflet
             let mymap = L.map('map').setView(coordenadas, 16);
 
