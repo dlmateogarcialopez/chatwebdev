@@ -25,7 +25,9 @@ export class DialogflowService {
   sessionSubject = new Subject<String[]>();
   conversation: RichMessage[] = [];
   //uriCoordenadas = 'https://chatbotchecserver.com/lucyPruebas/coordenadas.php';
-  uriCoordenadas = 'http://localhost/ACTUALES/LUCYPRUEBA/lucyPruebas/coordenadas.php';
+  public uriCoordenadas = 'http://localhost/ACTUALES/LUCYPRUEBA/lucyPruebas/coordenadas.php';
+  //public url = 'https://backchat.herokuapp.com';
+  public url = 'https://backchatweb.herokuapp.com';
 
 
   constructor(private http: HttpClient) {
@@ -132,26 +134,26 @@ export class DialogflowService {
   saveToDb(chat): Observable<any> {
     let params = JSON.stringify(chat);
     let headers = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.http.post('https://backchatweb.herokuapp.com/saveChats', params, { headers: headers });
+    return this.http.post(`${this.url}/saveChats`, params, { headers: headers });
   }
 
   //almacena la session en la base de datos
   saveSession(session): Observable<any> {
     let params = JSON.stringify(session);
     let headers = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.http.post('https://backchatweb.herokuapp.com/saveSessionId', params, { headers: headers });
+    return this.http.post(`${this.url}/saveSessionId`, params, { headers: headers });
   }
 
   //obtener la session en la base de datos
   getSession(session): Observable<any> {
     let headers = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.http.get('https://backchatweb.herokuapp.com/getSessionId/' + session, { headers: headers });
+    return this.http.get(`${this.url}/getSessionId/` + session, { headers: headers });
   }
 
   //obtener la sessiones en la base de datos
   getSessions(): Observable<any> {
     let headers = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.http.get('https://backchatweb.herokuapp.com/getSessions', { headers: headers });
+    return this.http.get(`${this.url}/getSessions`, { headers: headers });
   }
 
   //almacenar interaccion de puntos d atención
@@ -159,13 +161,13 @@ export class DialogflowService {
     let params = JSON.stringify(interaction);
     let headers = new HttpHeaders().set('Content-Type', 'application/json');
     //console.log(params);
-    return this.http.post('https://backchatweb.herokuapp.com/saveInteraction', params, { headers: headers });
+    return this.http.post(`${this.url}/saveInteraction`, params, { headers: headers });
   }
 
   saveRespondeAuth(response): Observable<any> {
     let params = JSON.stringify(response);
     let headers = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.http.post('https://backchatweb.herokuapp.com/saveResponseAuth', params, { headers: headers });
+    return this.http.post(`${this.url}/saveResponseAuth`, params, { headers: headers });
   }
 
 
