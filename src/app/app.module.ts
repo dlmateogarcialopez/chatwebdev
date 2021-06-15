@@ -13,6 +13,8 @@ import { ChatWindowComponent } from './components/chat-window/chat-window.compon
 
 //pipes
 import { SafePipe } from './pipes/safe.pipe';
+
+//route
 import { appRoutingProviders, routing } from './app.routing';
 
 

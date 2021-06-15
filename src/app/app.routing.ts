@@ -4,7 +4,7 @@ import {Routes, RouterModule} from '@angular/router';
 import {AppComponent} from './app.component';
 
 const appRoutes: Routes = [    
-    {path: 'chatWeb2/:prueba?', component: AppComponent},
+    
 ];
 
 export const appRoutingProviders: any[] = [];

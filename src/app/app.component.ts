@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { DialogflowService } from './services/dialogflow.service';
 import { HttpClient } from '@angular/common/http';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
+import * as moment from 'moment'
 
 
 @Component({
@@ -15,12 +16,9 @@ export class AppComponent {
 
   //Almacenar la ip del cleinte
   public ipAddress = '';
-  valor = '';
 
-  constructor(private _ds: DialogflowService, private http: HttpClient, private route: ActivatedRoute, private router: Router) {
+  constructor(private _ds: DialogflowService, private http: HttpClient, private router: Router) {
     //this._ds.connectToApi();
-
-
   }
 
   ngOnInit(): void {
@@ -28,10 +26,24 @@ export class AppComponent {
     //this.getIpAddress();
     setTimeout(() => {
       //console.log('router', this.router.url);
-      this.route.params.subscribe(event =>
-       console.log('')
-      );
-      //console.log(this.route.snapshot.params.prueba)
+      let separar = this.router.url.split('/');
+      if(separar[1] == '?chatWebLog='){
+        let d = new Date();
+        let fecha = moment(d).format('YYYY-MM-DD HH:mm:ss');
+        //console.log('proenabd', fecha);
+        let params = {
+          FECHA_LOG: fecha,
+          NAME: 'logUrlLucy'
+        }
+        this._ds.saveLogUrlLucy(params).subscribe(
+          response =>{
+
+          },
+          error =>{
+            //console.log(error);
+          }
+        );
+      }
     }, 0);
   }
 

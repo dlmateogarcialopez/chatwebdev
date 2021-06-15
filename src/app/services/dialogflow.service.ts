@@ -5,6 +5,7 @@ import { Subject, Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map, count } from 'rxjs/operators';
 import { Chat } from '../models/chats'
+import { JsonPipe } from '@angular/common';
 
 
 @Injectable({
@@ -14,21 +15,17 @@ export class DialogflowService {
 
   public session: any;
   public chat: Chat;
-  token: string = '480aeb50367e4ea1a0d693667f414f09'; //acces token del bot de dialogflow prueba
-  //token: string = '2eedf1ebf9e044cabb8d8da5c8ade49b'; //acces token del bot de dialogflow lucy
-  //token: string = 'eac3779412961c8fda42df172f984cdbecd71085'; //acces token del bot de dialogflow dev
-  //ya29.c.Ko8B3Afei3zCX2tW100BZLbsZVj-Nxu85E43XN8xClqBgrNQwupeUPyW8lZscCCGgyFv5tBHzGuFQJrCAlDhcBgObF_xpFjPYoyO5vY20vhllUR2EPwrLu5J9LfLAF0Qc27_HUqQPjgVxibtrarktKdRKvF7Ui2FHL4iGhlvcCwS_PSHARBv4xcaxYxKf8z_tk4
-  //token: string = 'ya29.c.Ko8B3Afei3zCX2tW100BZLbsZVj-Nxu85E43XN8xClqBgrNQwupeUPyW8lZscCCGgyFv5tBHzGuFQJrCAlDhcBgObF_xpFjPYoyO5vY20vhllUR2EPwrLu5J9LfLAF0Qc27_HUqQPjgVxibtrarktKdRKvF7Ui2FHL4iGhlvcCwS_PSHARBv4xcaxYxKf8z_tk4;'
-
+  //token: string = '480aeb50367e4ea1a0d693667f414f09'; //acces token del bot de dialogflow prueba
+  token: string = '2eedf1ebf9e044cabb8d8da5c8ade49b'; //acces token del bot de dialogflow lucy
   client: any;
   chatSubject = new Subject<RichMessage[]>(); //sera escuchado por todos los componentes que lo requieran
   sessionSubject = new Subject<String[]>();
   conversation: RichMessage[] = [];
-  //uriCoordenadas = 'https://chatbotchecserver.com/lucyPruebas/coordenadas.php';
-  public uriCoordenadas = 'http://localhost/ACTUALES/LUCYPRUEBA/lucyPruebas/coordenadas.php';
-  public uriCoordenadasFinanciacion = 'http://localhost/ACTUALES/LUCYPRUEBA/lucyPruebas/financiacion.php';
-  //public url = 'https://backchat.herokuapp.com';
-  public url = 'https://backchatweb.herokuapp.com';
+  //public url = 'https://backchatweb.herokuapp.com'; //dl.mgarcia@umanizales.edu.co
+  //public url = 'http://localhost:3001';
+  //public url = 'https://backchat.herokuapp.com'; //mateogarcialopez3@gmail.com
+  public url = 'https://chatbotchecserver.com/back';
+  public uriCoordenadas = 'https://chatbotchecserver.com/chatbotCHECUsuarios/coordenadas.php';
 
 
   constructor(private http: HttpClient) {
@@ -52,7 +49,6 @@ export class DialogflowService {
   postToDialofFlow(mensajeParaEnviar: string) {   //peticion de mensaje a dialogflow - retorna respuesta  
     this.client.textRequest(mensajeParaEnviar).then(respuesta => { //hacer una peticion a dialogflow       
       if (respuesta.result.fulfillment.messages || respuesta.result.fulfillment.speech) {
-        //console.log(respuesta)
         let msg = respuesta.result.fulfillment.messages; //capturando la respuesta(payload) que viene de dialogflow
         let sessionId = respuesta.sessionId;
         this.sessionSubject.next(sessionId)
@@ -133,9 +129,10 @@ export class DialogflowService {
 
   //almacena el mensaje en la base de datod
   saveToDb(chat): Observable<any> {
-    let params = JSON.stringify(chat);
+    let params = JSON.stringify(chat); //https://backchat.herokuapp.com/
     let headers = new HttpHeaders().set('Content-Type', 'application/json');
     return this.http.post(`${this.url}/saveChats`, params, { headers: headers });
+    //return this.http.post('https://chatwebback.herokuapp.com/saveChats', params, { headers: headers });
   }
 
   //almacena la session en la base de datos
@@ -157,7 +154,7 @@ export class DialogflowService {
     return this.http.get(`${this.url}/getSessions`, { headers: headers });
   }
 
-  //almacenar interaccion de puntos d atención
+  //almacenar interaccion de puntos de atención
   saveInteractionPointsOfAttention(interaction): Observable<any> {
     let params = JSON.stringify(interaction);
     let headers = new HttpHeaders().set('Content-Type', 'application/json');
@@ -165,13 +162,19 @@ export class DialogflowService {
     return this.http.post(`${this.url}/saveInteraction`, params, { headers: headers });
   }
 
+  //log de las veces que alguien usa la url
+  saveLogUrlLucy(logUrlLucy): Observable<any> {
+    let body = JSON.stringify(logUrlLucy);
+    //console.log(body);
+    let headers = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.http.post(`${this.url}/saveLogUrl`, body, { headers: headers });
+  }
+
   saveRespondeAuth(response): Observable<any> {
     let params = JSON.stringify(response);
     let headers = new HttpHeaders().set('Content-Type', 'application/json');
     return this.http.post(`${this.url}/saveResponseAuth`, params, { headers: headers });
   }
-
-
 
 
   //Reemplaza toda la conversacion existente por un array vacio
@@ -188,7 +191,7 @@ export class DialogflowService {
 
   }
 
-  //pintar puntos de atencion
+
   makeCapitalMarkers(distance, coordinates): Observable<any> {
     let coordenadas = JSON.stringify({
       coordenadas: coordinates,
@@ -198,7 +201,7 @@ export class DialogflowService {
   }
 
   //Guardar coordenadas
-  saveCoordinates(coordinates, codUser, distance) {
+  saveCoordinates(coordinates, codUser, distance){
     let coordenadas = JSON.stringify({
       coordenadas: coordinates,
       codUser: codUser,
@@ -206,13 +209,6 @@ export class DialogflowService {
     });
     return this.http.post(`${this.uriCoordenadas}`, coordenadas);
   }
-
-  //obtener documentos financiación
-  getFilesFinancing(codUser): Observable<any> {
-    let sesion = JSON.stringify(codUser);
-    return this.http.post(`${this.uriCoordenadasFinanciacion}`, sesion);
-  }
-
   /*
   https://backchatweb.herokuapp.com/saveChats
   https://backchatweb.herokuapp.com/saveSessionId

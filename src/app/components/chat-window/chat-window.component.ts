@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 import { Chat } from '../../models/chats';
 import { Session } from '../../models/session';
 import * as moment from 'moment';
+
 declare var $: any;
 
 @Component({
@@ -46,12 +47,13 @@ export class ChatWindowComponent implements OnInit {
 
     this._dfs.chatSubject.subscribe((conversation: RichMessage[]) => {
       this.conversation = conversation;
+      //console.log(conversation);
       setTimeout(() => {
         //$(".message-content-inner").stop().animate({ scrollTop: $(".message-content-inner")[0].scrollHeight + 500 }, 100);
         document.getElementById('message-content-inner').scrollTop = 9999999;
       }, 100);
 
-      this.verificarAutorizacion();//-----------------------------------------------------------
+      //this.verificarAutorizacion(); //activar funcionalidad de autorizació
       this.sendToDB();
     });
 
@@ -61,7 +63,6 @@ export class ChatWindowComponent implements OnInit {
 
 
     this._dfs.connectToApi();
-
   }
 
 
@@ -81,9 +82,10 @@ export class ChatWindowComponent implements OnInit {
           //console.log(response);
         },
         error => {
-          console.log(error);
+          console.log('error', error);
         }
       );
+
 
       this.getSession(this.sessionId);
       //this.getSessions(this.sessionId);    
@@ -117,7 +119,6 @@ export class ChatWindowComponent implements OnInit {
     );
 
   }
-
 
   getSessions(sessionId) {
     this._dfs.getSessions().subscribe(
@@ -159,10 +160,12 @@ export class ChatWindowComponent implements OnInit {
   autorizacion() {//----------------------------------------------
     Swal.fire({
       html:
-        'Autoriza el tratamiento de sus datos personales con fines comerciales diferentes a la prestación del servicio, para adelantar todas las gestiones de mercadeo y promoción relacionadas con los servicios ofrecidos por CHEC o por sus aliados comerciales, de acuerdo con la política tratamiento de información y el aviso de privacidad publicado en la página web ' +
-        '<a href="//sweetalert2.github.io">WWW.CHEC.COM.CO</a> ',
+        'Autoriza a CHEC para el tratamiento de tus datos personales con fines comerciales diferentes a la prestación del servicio y conoce los productos y/o servicios ofrecidos por CHEC o sus aliados comerciales, consulta nuestra política de protección de datos personales publicada  ' +
+        '<a href="https://www.chec.com.co/normatividad/politica-proteccion-datos-personales" style="color:#778D48;" target="_blank">Política de tratamiento de datos</a> ',
       showCloseButton: false,
       showCancelButton: true,
+      confirmButtonColor: '#649400',
+      cancelButtonColor: '#6D6E71',
       focusConfirm: true,
       confirmButtonText:
         '<i class="fa fa-thumbs-up"></i> Autorizar',
@@ -174,13 +177,13 @@ export class ChatWindowComponent implements OnInit {
       let d = new Date();
       let response = {};
       if (result.value) {
-         response = {
+        response = {
           CODUSER: this.sessionId,
           RESPONSE: 'SI',
           FECHA: moment(d).format('YYYY-MM-DD h:mm:ss'),
         }
       } else {
-         response = {
+        response = {
           CODUSER: this.sessionId,
           RESPONSE: 'NO',
           FECHA: moment(d).format('YYYY-MM-DD h:mm:ss'),

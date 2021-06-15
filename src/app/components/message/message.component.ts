@@ -3,7 +3,7 @@ import { Chip } from 'src/app/models/rich-message';
 import { DialogflowService } from 'src/app/services/dialogflow.service';
 import Swal from 'sweetalert2';
 import * as $ from 'jquery';
-import * as moment from 'moment';
+import * as moment from 'moment'
 //import * as L from 'leaflet';
 
 
@@ -34,7 +34,6 @@ var LeafIcon = L.Icon.extend({
 let greenIcon = new LeafIcon({ iconUrl: iconUrl_init });
 let redIcon = new LeafIcon({ iconUrl: MyiconUrl });
 
-
 @Component({
   selector: 'app-message',
   templateUrl: './message.component.html',
@@ -46,6 +45,7 @@ export class MessageComponent implements OnInit {
   public today = new Date();//para mostrar las horas en el chat
   public imagenDescarga: boolean = false;//flag para controlar que los iconos de descarga solo salgan en los mensajes que vienen con pdf
   public cargaYdescarga = "./assets/images/web.png";//falg para cambiar de imagen(de descarga a carga)
+  public mensajeCuenta = false;
   public distance: number = 300    // 5.042848, -75.478340, -75.522120, 5.071584
   public mapa = false;
   public map
@@ -60,18 +60,38 @@ export class MessageComponent implements OnInit {
     if (this.message.text == 'Interrupción de Energía⚡') {
       //this.getCurrentLocation(this.message.codUser);
     }
+    //controal cuando se va a mostrar los iconos de descarga
     if (this.message.docUrl) {
 
       var name = this.message.docUrl.split(".");
 
+
       if (name[0] == "https://chatbotchecserver" || name[0] == "https://adminchecweb") {
         this.imagenDescarga = true;
       }
-    }
 
+      //cada que dialogflow retorne un documento, se va a ejecutar esta funcion, que sirve para mostrar la factura en el chat
+      //funciona para mostrar imagenes en un canvas
+      /*if (name[0] == "https://chatbotchecserver") {
+        pdfToImg(this.message.docUrl);
+        console.log("chatbotCHECUsuarios");
+
+      } else if (name[0] == "https://adminchecweb") {
+        var url = 'https://cors-lucy.herokuapp.com/' + this.message.docUrl;
+        pdfToImg(url);
+      }*/
+
+    }
     this.limpiarMapa();
     this.dispararMapa(this.message.text);
 
+    if (this.message.text.length == 9) {
+      var cadena = `${this.message.text}`;
+      var result = /^[0-9]*$/.test(cadena);
+      if (result) {
+        this.mensajeCuenta = true;
+      }
+    }
   }
 
   dispararMapa(message) {
@@ -91,25 +111,6 @@ export class MessageComponent implements OnInit {
       container.outerHTML = "";
     }
   }
-
-  ngAfterViewInit(): void {
-    //throw new Error('Method not implemented.');
-    //this.initMap()
-    //this.initMap();
-    //this.makeCapitalMarkers(this.map, this.distance, this.coordenates);
-  }
-
-
-  /* private initMap(): void {
-     //this.mapa = true;
-     this.map = L.map('map', { center: [this.coordenates[0], this.coordenates[1]], zoom: 16 }); //iniciar mapa en una coordenada
-     const tiles = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-       zoom: 19,
-       attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-     });
- 
-     tiles.addTo(this.map);
-   }*/
 
   getCurrentLocation(codUser) {
     if (navigator.geolocation) {
@@ -159,6 +160,7 @@ export class MessageComponent implements OnInit {
       alert("Geolocation is not supported by this browser.");
     }
   }
+
 
   makeCapitalMarkers(map, distance, coordenates) {
     let coordenadas = [coordenates[1], coordenates[0]];
@@ -212,7 +214,134 @@ export class MessageComponent implements OnInit {
           console.log(error);
         }
       );
-      //this.mapa = true;
+    } else if (c.text == '👆 Registra aquí tu PQR') {
+      let d = new Date();
+      let fecha = moment(d).format('YYYY-MM-DD h:mm:ss');
+      let params = {
+        interaction: 'fpqr',
+        fecha: fecha
+      }
+      //console.log(params);
+      this._dfs.saveInteractionPointsOfAttention(params).subscribe(
+        response => {
+          //console.log(response);
+        },
+        error => {
+          console.log(error);
+        }
+      );
+    } else if (c.text == 'Habla con nuestro asesor remoto') {
+      let d = new Date();
+      let fecha = moment(d).format('YYYY-MM-DD h:mm:ss');
+      let params = {
+        interaction: 'fasesor_remoto',
+        fecha: fecha
+      }
+      //console.log(params);
+      this._dfs.saveInteractionPointsOfAttention(params).subscribe(
+        response => {
+          //console.log(response);
+        },
+        error => {
+          console.log(error);
+        }
+      );
+    } else if (c.text == 'Chatea con un asesor') {
+      let d = new Date();
+      let fecha = moment(d).format('YYYY-MM-DD h:mm:ss');
+      let params = {
+        interaction: 'fasesor_remoto_chat',
+        fecha: fecha
+      }
+      //console.log(params);
+      this._dfs.saveInteractionPointsOfAttention(params).subscribe(
+        response => {
+          //console.log(response);
+        },
+        error => {
+          console.log(error);
+        }
+      );
+    } else if (c.text == 'Ir a Pago en Línea') {
+      let d = new Date();
+      let fecha = moment(d).format('YYYY-MM-DD h:mm:ss');
+      let params = {
+        interaction: 'fpago_linea',
+        fecha: fecha
+      }
+      //console.log(params);
+      this._dfs.saveInteractionPointsOfAttention(params).subscribe(
+        response => {
+          //console.log(response);
+        },
+        error => {
+          console.log(error);
+        }
+      );
+    } else if (c.text == 'Cómo Pago en Línea') {
+      let d = new Date();
+      let fecha = moment(d).format('YYYY-MM-DD h:mm:ss');
+      let params = {
+        interaction: 'fcomo_pago_linea',
+        fecha: fecha
+      }
+      //console.log(params);
+      this._dfs.saveInteractionPointsOfAttention(params).subscribe(
+        response => {
+          //console.log(response);
+        },
+        error => {
+          console.log(error);
+        }
+      );
+    } else if (c.text == '😁Ver Ofertas de Empleo Chec') {
+      let d = new Date();
+      let fecha = moment(d).format('YYYY-MM-DD h:mm:ss');
+      let params = {
+        interaction: 'fvacantes',
+        fecha: fecha
+      }
+      //console.log(params);
+      this._dfs.saveInteractionPointsOfAttention(params).subscribe(
+        response => {
+          //console.log(response);
+        },
+        error => {
+          console.log(error);
+        }
+      );
+    } else if (c.text == '👆 Denunciar fraude') {
+      let d = new Date();
+      let fecha = moment(d).format('YYYY-MM-DD h:mm:ss');
+      let params = {
+        interaction: 'ffraude',
+        fecha: fecha
+      }
+      //console.log(params);
+      this._dfs.saveInteractionPointsOfAttention(params).subscribe(
+        response => {
+          //console.log(response);
+        },
+        error => {
+          console.log(error);
+        }
+      );
+    } else if (c.text == '👆 Puntos de recaudo') {
+      let d = new Date();
+      let fecha = moment(d).format('YYYY-MM-DD h:mm:ss');
+      let params = {
+        interaction: 'fpuntos_recaudo',
+        fecha: fecha
+      }
+      //console.log(params);
+      this._dfs.saveInteractionPointsOfAttention(params).subscribe(
+        response => {
+          //console.log(response);
+        },
+        error => {
+          console.log(error);
+        }
+      );
     }
 
     if (c.hintMsg) {
@@ -225,8 +354,6 @@ export class MessageComponent implements OnInit {
     }
 
   }
-
-
 
   zoomImageInvoice() {
     //console.log('prueba factura');
@@ -249,7 +376,7 @@ export class MessageComponent implements OnInit {
   }
 
   //descargar la factura y cupon de pago
-  downloadPdf(pdfUrl: string) {
+  /*downloadPdf(pdfUrl: string) {
 
 
     Promise.resolve().then(_ => this.cargaYdescarga = "./assets/images/loader.gif");
@@ -264,7 +391,9 @@ export class MessageComponent implements OnInit {
       var pdfName = 'cupon_' + doc[doc.length - 1];
 
     } else if (name[0] == "https://adminchecweb") {
-      var url = 'https://dl-dev.herokuapp.com/' + pdfUrl;
+      //http://chatbotchecserver.com:8080/
+      //https://dl-dev.herokuapp.com/
+      var url = pdfUrl;
       var pdfName = 'copia_factura_' + docFull[docFull.length - 1] + '.pdf';
 
     }
@@ -275,9 +404,41 @@ export class MessageComponent implements OnInit {
     Promise.resolve().then(_ => this.cargaYdescarga = "./assets/images/web.png");
 
     Promise.resolve().then(_ => this.chagePropertiesImages());
+  }*/
+
+  //descargar la factura y cupon de pago
+  downloadPdf(pdfUrl: string) {
 
 
+    Promise.resolve().then(_ => this.cargaYdescarga = "./assets/images/loader.gif");
+
+    var name = pdfUrl.split(".");
+    var doc = pdfUrl.split("/");
+    var docFull = doc[doc.length - 1].split("=");
+    var url = "";
+
+    if (name[0] == "https://chatbotchecserver") {
+      var url = pdfUrl;
+      let separateDir = pdfUrl.split(".com");
+      //let url = '/var/www/html' + separateDir[1];
+      var pdfName = 'cupon_' + doc[doc.length - 1];
+
+    } else if (name[0] == "https://adminchecweb") {
+      //http://chatbotchecserver.com:8080/
+      //https://dl-dev.herokuapp.com/
+      var url = 'https://dl-dev.herokuapp.com/' + pdfUrl;
+      var pdfName = 'copia_factura_' + docFull[docFull.length - 1] + '.pdf';
+    }
+    //let url = 'https://cors-anywhere.herokuapp.com/' + pdfUrl;
+    //https://cors-lucy.herokuapp.com/
+
+    Promise.resolve().then(_ => FileSaver.saveAs(url, pdfName));
+    Promise.resolve().then(_ => this.cargaYdescarga = "./assets/images/web.png");
+
+    Promise.resolve().then(_ => this.chagePropertiesImages());
   }
+
+
 
   //propiedades que seran cambiadas del css
   chagePropertiesImages() {
@@ -291,17 +452,6 @@ export class MessageComponent implements OnInit {
     this.descarga.nativeElement.style.backgroundColor = "#0707073d"
     this.ovalo.nativeElement.style.backgroundColor = "#07070700"
     this.ovalo.nativeElement.style.cursor = "default"
-  }
-
-  obtenerArchivosFinanciacion(codUser) {
-    this._dfs.getFilesFinancing(codUser).subscribe(
-      res => {
-        console.log(res);
-      },
-      err => {
-        console.log(err);
-      }
-    );
   }
 
 }
