@@ -26,6 +26,7 @@ export class DialogflowService {
   conversation: RichMessage[] = [];
   //uriCoordenadas = 'https://chatbotchecserver.com/lucyPruebas/coordenadas.php';
   public uriCoordenadas = 'http://localhost/ACTUALES/LUCYPRUEBA/lucyPruebas/coordenadas.php';
+  public uriCoordenadasFinanciacion = 'http://localhost/ACTUALES/LUCYPRUEBA/lucyPruebas/financiacion.php';
   //public url = 'https://backchat.herokuapp.com';
   public url = 'https://backchatweb.herokuapp.com';
 
@@ -204,6 +205,12 @@ export class DialogflowService {
       distance: distance
     });
     return this.http.post(`${this.uriCoordenadas}`, coordenadas);
+  }
+
+  //obtener documentos financiación
+  getFilesFinancing(codUser): Observable<any> {
+    let sesion = JSON.stringify(codUser);
+    return this.http.post(`${this.uriCoordenadasFinanciacion}`, sesion);
   }
 
   /*

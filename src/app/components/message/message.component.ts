@@ -53,7 +53,7 @@ export class MessageComponent implements OnInit {
   @Input() message;
   @ViewChild('descarga') descarga; //controlar algunos atributos css
   @ViewChild('ovalo') ovalo; //controlar algunos atributos css
-  constructor(private _dfs: DialogflowService) { } 
+  constructor(private _dfs: DialogflowService) { }
 
   ngOnInit(): void {
     this.getCurrentLocation(this.message.codUser);
@@ -291,6 +291,17 @@ export class MessageComponent implements OnInit {
     this.descarga.nativeElement.style.backgroundColor = "#0707073d"
     this.ovalo.nativeElement.style.backgroundColor = "#07070700"
     this.ovalo.nativeElement.style.cursor = "default"
+  }
+
+  obtenerArchivosFinanciacion(codUser) {
+    this._dfs.getFilesFinancing(codUser).subscribe(
+      res => {
+        console.log(res);
+      },
+      err => {
+        console.log(err);
+      }
+    );
   }
 
 }
