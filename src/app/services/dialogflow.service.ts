@@ -22,7 +22,7 @@ export class DialogflowService {
   sessionSubject = new Subject<String[]>();
   conversation: RichMessage[] = [];
   //public url = 'https://backchatweb.herokuapp.com'; //dl.mgarcia@umanizales.edu.co
-  //public url = 'http://localhost:3001';
+  //public url = 'http://localhost:5000';
   //public url = 'https://backchat.herokuapp.com'; //mateogarcialopez3@gmail.com
   public url = 'https://chatbotchecserver.com/back';
   public uriCoordenadas = 'https://chatbotchecserver.com/chatbotCHECUsuarios/coordenadas.php';
@@ -201,13 +201,28 @@ export class DialogflowService {
   }
 
   //Guardar coordenadas
-  saveCoordinates(coordinates, codUser, distance){
+  saveCoordinates(coordinates, codUser, distance) {
     let coordenadas = JSON.stringify({
       coordenadas: coordinates,
       codUser: codUser,
       distance: distance
     });
     return this.http.post(`${this.uriCoordenadas}`, coordenadas);
+  }
+
+
+  //Verificar credenciales de usurio
+  saveUser(credentials): Observable<any> {
+    let params = JSON.stringify(credentials)
+    let headers = new HttpHeaders().set('Content-Type', 'application/json')
+    return this.http.post(`${this.url}/saveUser`, params, { headers: headers });
+  }
+
+
+  login(credentials): Observable<any> {
+    let params = JSON.stringify(credentials)
+    let headers = new HttpHeaders().set('Content-Type', 'application/json')
+    return this.http.post(`${this.url}/login`, credentials, { headers: headers });
   }
   /*
   https://backchatweb.herokuapp.com/saveChats

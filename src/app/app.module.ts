@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { HttpClientModule } from '@angular/common/http'; 
-
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 //components
@@ -16,6 +16,7 @@ import { SafePipe } from './pipes/safe.pipe';
 
 //route
 import { appRoutingProviders, routing } from './app.routing';
+import { LoginComponent } from './components/login/login.component';
 
 
 @NgModule({
@@ -23,12 +24,14 @@ import { appRoutingProviders, routing } from './app.routing';
     AppComponent,
     MessageComponent,
     ChatWindowComponent,
-    SafePipe
+    SafePipe,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpClientModule,
+    ReactiveFormsModule,
     routing
   ],
   providers: [
