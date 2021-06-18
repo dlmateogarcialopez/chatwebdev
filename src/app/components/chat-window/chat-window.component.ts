@@ -5,7 +5,6 @@ import Swal from 'sweetalert2';
 import { Chat } from '../../models/chats';
 import { Session } from '../../models/session';
 import * as moment from 'moment';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 declare var $: any;
 
@@ -23,19 +22,9 @@ export class ChatWindowComponent implements OnInit {
   sessionId: any;
   inputMessage: string = '';
   askInfo = false;
-  loginForm = this.fb.group({
-    correo: ["", [Validators.required, Validators.email]],
-    contrasena: ["", [Validators.required]]
-  });
-  public conversacion: boolean = false
-  public loginInicial: boolean = true
-
-  get loginFields() {
-    return this.loginForm.controls;
-  }
 
 
-  constructor(private _dfs: DialogflowService, private fb: FormBuilder) {
+  constructor(private _dfs: DialogflowService) {
     this.chat = new Chat('');
     this.session = new Session('');
 
@@ -241,40 +230,6 @@ export class ChatWindowComponent implements OnInit {
   onChipSelected(event) {
     console.log('onchip');
     console.log(event);
-  }
-
-  login() {
-    if (this.loginForm.invalid) {
-      this.validateAllFormFields(this.loginForm);
-      return;
-    } else {
-      console.log(this.loginForm.value)
-      this._dfs.login(this.loginForm.value).subscribe(
-        res => {
-          if (res.status) {
-            this.loginInicial = false
-            this.conversacion = true
-          }else{
-            //mostrar mensaje de error
-          }
-        },
-        err => {
-          console.log(err)
-        }
-      )
-
-    }
-  }
-
-  validateAllFormFields(formGroup: FormGroup) {
-    Object.keys(formGroup.controls).forEach((field) => {
-      const control = formGroup.get(field);
-      if (control instanceof FormControl) {
-        control.markAsTouched({ onlySelf: true });
-      } else if (control instanceof FormGroup) {
-        this.validateAllFormFields(control);
-      }
-    });
   }
 
 }

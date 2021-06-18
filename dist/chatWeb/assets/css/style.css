@@ -17608,3 +17608,26 @@ a.headline-link:after {
     background-color: #07070700;
 
  */
+
+ /*
+ :root {
+   --verde_primary: #00782b;
+ }
+ 
+ button.verde_primary {
+   background: var(--verde_primary) !important;
+   color: white !important;
+ }
+
+ .recibirDato{
+     border: 1px solid red;
+ }
+ 
+ h1 {
+   font-size: clamp(24px, 5vw, 35px);
+   font-size: max(24px, min(35px, 5vw));
+ }
+ */ 
+
+
+

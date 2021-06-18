@@ -27,7 +27,8 @@
             "styles": [
               "src/styles.css",
               "src/assets/css/style.css",
-              "src/assets/css/colors/orange.css"
+              "src/assets/css/colors/orange.css",
+              "src/styles.scss"
             ],
             "scripts": [
               "src/assets/js/pdfToImg.js",

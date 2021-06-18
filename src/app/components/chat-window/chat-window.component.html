@@ -1,4 +1,4 @@
-<div class="message-content" *ngIf="conversacion">
+<div class="message-content">
 
     <div class="messages-headline">
 
@@ -30,46 +30,4 @@
     </div>   
 </div>
 
-<div class="position-relative overflow-hidden" *ngIf="loginInicial">
-    <!-- <div id="side_background"></div> -->
-    <div class="h_100vh">
-      <div class="row justify-content-between align-items-center no-gutters h-100">
-        <div class="mx-auto">
-          <div class="card py-5 m-0">
-            <div class="row align-items-center no-gutters">
-              <div class="col-12 ml-lg-0">
-                <div class="px-4">
-                  <div class="text-center mb-4">
-                    <img src="assets/images/chec_logo.png" alt="CHEC" class="img-fluid" />
-                  </div>
-                  <h5 class="d-sm-block d-md-none text-center mb-4">
-                    Iniciar sesión
-                  </h5>
-                  <h3 class="d-sm-down-none text-center mb-4">Iniciar sesión</h3>
-                  <!-- <p class="text-muted text-center mb-4">Ingresa a tu cuenta</p> -->
-                  <form [formGroup]="loginForm" (ngSubmit)="login()">
-                    <div class="position-relative mb-4">
-                      <label for="correo">Correo electrónico</label>
-                      <input type="text" formControlName="correo" class="form-control" id="email"
-                        placeholder="usuario@chec.com.co" />
-                    </div>
   
-                    <div class="position-relative" style="margin-bottom: 2rem">
-                      <label for="contrasena">Contraseña</label>
-                      <input type="password" formControlName="contrasena" class="form-control" id="password"
-                        placeholder="Contraseña" />
-                    </div>
-                    <div class="">
-                      <button type="submit" class="btn verde_primary text-white w-100">
-                        Ingresar
-                      </button>
-                    </div>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>

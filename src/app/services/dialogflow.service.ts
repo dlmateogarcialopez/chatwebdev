@@ -15,8 +15,8 @@ export class DialogflowService {
 
   public session: any;
   public chat: Chat;
-  //token: string = '480aeb50367e4ea1a0d693667f414f09'; //acces token del bot de dialogflow prueba
-  token: string = '2eedf1ebf9e044cabb8d8da5c8ade49b'; //acces token del bot de dialogflow lucy
+  token: string = '480aeb50367e4ea1a0d693667f414f09'; //acces token del bot de dialogflow prueba
+  //token: string = '2eedf1ebf9e044cabb8d8da5c8ade49b'; //acces token del bot de dialogflow lucy
   client: any;
   chatSubject = new Subject<RichMessage[]>(); //sera escuchado por todos los componentes que lo requieran
   sessionSubject = new Subject<String[]>();
